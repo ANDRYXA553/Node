@@ -4,7 +4,6 @@ const expressHbs = require('express-handlebars');
 
 const fs = require('fs');
 const path = require('path');
-
 const dirname = __dirname;
 
 
@@ -24,6 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(dirname, 'static')));
 
+
 app.get('/',(req, res) => {
   res.render('home')
 });
@@ -33,7 +33,6 @@ app.get('/registration', (req, res) => {
     res.render('registration');
 });
 
-
 app.post('/registration', (req, res) => {
     const {login} = req.body;
     const users = getUsers();
@@ -42,6 +41,7 @@ app.post('/registration', (req, res) => {
         res.render('err', {errType: 'Login is already taken'})
         return;
     }
+
     users.push({...req.body, userId: Date.now()});
 
     fs.writeFile(path.join(dirname, 'users', 'users.json'), JSON.stringify(users), err => {
@@ -57,7 +57,6 @@ app.get('/users', (req, res) => {
     res.render('users', {users});
 });
 
-
 app.get('/users/:userId', (req, res) => {
     const users = getUsers()
     const user = users.find(user => user.userId === +req.params.userId);
@@ -69,7 +68,6 @@ app.get('/users/:userId', (req, res) => {
 app.get('/login', (req, res) => {
     res.render('login');
 });
-
 
 app.post('/login', (req, res) => {
     const {login, password} = req.body
