@@ -15,7 +15,8 @@ module.exports = {
     },
     createUser: async (req, res) => {
         // req.body.name;
-        console.log(req.body);
+        const user = await req.body
+        console.log(user, "body");
         await userService.insertUser(req.body);
         res.json('user created');
     },

@@ -7,7 +7,7 @@ const userRouter = require('./router/user.router')
 const {PORT} = require('./constants/constants')
 
 
-app.use('/users', userRouter)
+app.use('/users', userRouter);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
