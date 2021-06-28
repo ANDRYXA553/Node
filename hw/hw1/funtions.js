@@ -76,4 +76,4 @@ function sortSingleFolder(currDirectory) {
     })
 }
 
-// sortByGender()
+sortByGender()
