@@ -13,9 +13,9 @@ module.exports = {
     },
     insertUser: async (userObj) => {
         const users = await getUsers();
-        users.push({ ...userObj, id: Date.now() });
-        await writeToDB(users);
-        // await writeFile(dbPath, JSON.stringify(users));
+        users.push({ ...userObj, userId: Date.now() });
+
+        await writeFile(dbPath, JSON.stringify(users));
     },
     findUserById: async (userId) => {
         const users = await getUsers();
@@ -24,7 +24,21 @@ module.exports = {
     deleteUserById: async (userId) => {
         const users = await getUsers();
         const usersAfterDelete = users.filter((user) => +user.userId !== +userId);
-        writeFile(dbPath, JSON.stringify(usersAfterDelete));
+        await writeFile(dbPath, JSON.stringify(usersAfterDelete));
+    },
+    updateUserById: async (user, userForUpdate) => {
+        const users = await getUsers();
+        const { userId } = user;
+        const { name, age, gender } = userForUpdate;
+        const newUsersArr = users.map((u) => {
+            if (u.userId === userId) {
+                return {
+                    ...user, name, age, gender
+                };
+            }
+            return user;
+        });
+        await writeFile(dbPath, JSON.stringify(newUsersArr));
     }
 };
 
@@ -34,14 +48,4 @@ async function getUsers() {
         throw new Error('users not found');
     }
     return JSON.parse(users.toString());
-}
-
-module.exports.findAll();
-
-async function writeToDB(data) {
-    const err = await writeFile(dbPath, JSON.stringify(data));
-
-    if (err) {
-        throw new Error(err);
-    }
 }

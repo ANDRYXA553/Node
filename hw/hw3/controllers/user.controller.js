@@ -1,34 +1,30 @@
-const userService = require('../services/user.service');
-const {dbPath} = require('../constants/db.constants');
-const express = require('express');
-
-const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+const { services } = require('../services');
+const { constants } = require('../constants');
 
 module.exports = {
     getAllUsers: async (req, res) => {
-        const users = await userService.findAll();
-        console.log(dbPath);
+        const users = await services.findAll();
         res.json(users);
     },
     createUser: async (req, res) => {
-        // req.body.name;
-        const user = await req.body
-        console.log(user, "body");
-        await userService.insertUser(req.body);
-        res.json('user created');
+        const user = await req.body;
+        await services.insertUser(user);
+        res.json(constants.USER_CREATED);
     },
     getUserById: (req, res) => {
-        const {user} = req;
+        const { user } = req;
         res.json(user);
     },
     deleteUserById: async (req, res) => {
-        const {userId} = req.user;
-        console.log(userId);
-        await userService.deleteUserById(userId);
-        res.json(userId, 'success deleted');
+        const { userId } = req.user;
+        await services.deleteUserById(userId);
+        res.json(constants.USER_DELETED);
+    },
+    updateUserById: async (req, res) => {
+        const { user } = req;
+        const userForUpdate = req.body;
+        await services.updateUserById(user, userForUpdate);
+        res.json(constants.USER_UPDATED);
     }
 
 };
