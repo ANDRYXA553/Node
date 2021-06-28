@@ -12,5 +12,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/users', userRouter);
 
 app.listen(PORT, () => {
-    console.log('app listen port 3001');
+    console.log(`app listen port ${PORT}`);
 });

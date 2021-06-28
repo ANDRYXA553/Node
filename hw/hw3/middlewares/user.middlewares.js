@@ -13,6 +13,7 @@ try {
             req.user = userById;
             next();
         },
+
         checkIsUserNameAvailable: async (req, res, next) => {
             const { name } = req.body;
             const users = await services.findAll();

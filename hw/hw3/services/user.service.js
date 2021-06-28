@@ -11,21 +11,25 @@ module.exports = {
         const users = await getUsers();
         return users;
     },
+
     insertUser: async (userObj) => {
         const users = await getUsers();
         users.push({ ...userObj, userId: Date.now() });
 
         await writeFile(dbPath, JSON.stringify(users));
     },
+
     findUserById: async (userId) => {
         const users = await getUsers();
         return users.find((user) => +user.userId === +userId);
     },
+
     deleteUserById: async (userId) => {
         const users = await getUsers();
         const usersAfterDelete = users.filter((user) => +user.userId !== +userId);
         await writeFile(dbPath, JSON.stringify(usersAfterDelete));
     },
+
     updateUserById: async (user, userForUpdate) => {
         const users = await getUsers();
         const { userId } = user;
