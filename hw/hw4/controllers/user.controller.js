@@ -9,18 +9,16 @@ module.exports = {
             res.status(statusCode.SUCCESS)
                 .json(users);
         } catch (e) {
-            // console.log(e.message);
             next(e);
         }
     },
 
     createUser: async (req, res, next) => {
         try {
-            const user = await User.create(req.body);
+            await User.create(req.body);
             res.status(statusCode.CREATED)
-                .json(user);
+                .json(constants.USER_CREATED);
         } catch (e) {
-            console.log('-=-=-=-=-,', e);
             next(e);
         }
     },
@@ -31,34 +29,29 @@ module.exports = {
             res.status(statusCode.SUCCESS)
                 .json(user);
         } catch (e) {
-            console.log('================', e.message, e.status);
-            // console.log(e.message);
             next(e);
         }
     },
 
     deleteUserById: async (req, res, next) => {
         try {
-            const { userId } = req.params;
-            await User.findByIdAndDelete({ _id: userId });
+            const { id } = req.user;
+            await User.findOneAndDelete({ _id: id });
             res.status(statusCode.DELETED)
                 .json(constants.USER_DELETED);
         } catch (e) {
-            // console.log(e.message);
             next(e);
         }
     },
 
-    updateUserById: async (err, req, res, next) => {
+    updateUserById: async (req, res, next) => {
         try {
             const userToUpdate = req.body;
-            const { user } = req;
-            console.log('uuuuuuu', user);
-            await User.findOneAndUpdate({ _id: user.id }, userToUpdate);
+            const { id } = req.user;
+            await User.findOneAndUpdate({ _id: id }, userToUpdate);
             res.status(statusCode.UPDATE)
                 .json(constants.USER_UPDATED);
         } catch (e) {
-            // console.log(e.message);
             next(e);
         }
     }
