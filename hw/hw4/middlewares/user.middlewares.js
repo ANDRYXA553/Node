@@ -1,5 +1,7 @@
 const { User } = require('../dataBase');
+
 const { ErrorHandler, errorMessages } = require('../errors');
+
 const { statusCode } = require('../constants');
 
 module.exports = {
@@ -7,6 +9,7 @@ module.exports = {
         try {
             const { userId } = req.params;
             const userById = await User.findById(userId);
+
             if (!userById) {
                 throw new ErrorHandler(statusCode.WRONG_REQUEST,
                     errorMessages.RECORD_NOT_FOUND.message,
@@ -23,6 +26,7 @@ module.exports = {
         try {
             const { name } = req.body;
             const isNameAvailable = await User.findOne({ name });
+
             if (isNameAvailable) {
                 throw new ErrorHandler(statusCode.WRONG_REQUEST,
                     errorMessages.NAME_IS_ALREADY_TAKEN.message,
