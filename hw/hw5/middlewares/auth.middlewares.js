@@ -4,10 +4,10 @@ const { ErrorHandler, errorMessages } = require('../errors');
 const { User } = require('../dataBase');
 
 module.exports = {
-    loginAndPasswordChecker: async (req, res, next) => {
+        loginAndPasswordChecker: async (req, res, next) => {
         try {
             const { email, password } = req.body;
-            const user = await User.findOne(email).select('+password');
+            const user = await User.findOne({ email }).select('+password');
 
             if (!user) {
                 throw new ErrorHandler(statusCode.WRONG_REQUEST,
