@@ -11,6 +11,7 @@ module.exports = {
             .required(),
         age: Joi.number().min(1).max(120),
     }),
+
     updateUser: Joi.object().keys({
         name: Joi.string(),
         email: Joi.string().regex(regexp.EMAIL_REGEXP),

@@ -17,6 +17,7 @@ module.exports = {
                     errorMessages.RECORD_NOT_FOUND.message,
                     errorMessages.RECORD_NOT_FOUND.customCode);
             }
+
             req.user = userById;
             next();
         } catch (e) {
@@ -39,6 +40,7 @@ module.exports = {
             next(e);
         }
     },
+
     checkIsUserValidOnCreate: (req, res, next) => {
         try {
             const { error } = userValidator.createUser.validate(req.body);
@@ -48,11 +50,13 @@ module.exports = {
                     error.details[0].message,
                     errorMessages.IN_VALID_DATA.customCode);
             }
+
             next();
         } catch (e) {
             next(e);
         }
     },
+
     checkIsUserValidOnUpdate: (req, res, next) => {
         try {
             const { error } = userValidator.updateUser.validate(req.body);
@@ -62,6 +66,7 @@ module.exports = {
                     error.details[0].message,
                     errorMessages.IN_VALID_DATA.customCode);
             }
+
             next();
         } catch (e) {
             next(e);
