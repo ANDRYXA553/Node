@@ -1,6 +1,7 @@
 const { constants, statusCode } = require('../constants');
 
 const { User } = require('../dataBase');
+const { passwordHasher } = require('../helpers');
 
 module.exports = {
     getAllUsers: async (req, res, next) => {
@@ -16,7 +17,10 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            await User.create(req.body);
+            const { password } = req.body;
+            const newPassword = await passwordHasher.hash(password);
+
+            await User.create({ ...req.body, password: newPassword });
 
             res.status(statusCode.CREATED)
                 .json(constants.USER_CREATED);

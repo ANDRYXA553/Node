@@ -2,6 +2,8 @@ const { User } = require('../dataBase');
 
 const { ErrorHandler, errorMessages } = require('../errors');
 
+const { userValidator } = require('../validators');
+
 const { statusCode } = require('../constants');
 
 module.exports = {
@@ -31,6 +33,34 @@ module.exports = {
                 throw new ErrorHandler(statusCode.WRONG_REQUEST,
                     errorMessages.NAME_IS_ALREADY_TAKEN.message,
                     errorMessages.NAME_IS_ALREADY_TAKEN.customCode);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+    checkIsUserValidOnCreate: (req, res, next) => {
+        try {
+            const { error } = userValidator.createUser.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.WRONG_REQUEST,
+                    error.details[0].message,
+                    errorMessages.IN_VALID_DATA.customCode);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+    checkIsUserValidOnUpdate: (req, res, next) => {
+        try {
+            const { error } = userValidator.updateUser.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.WRONG_REQUEST,
+                    error.details[0].message,
+                    errorMessages.IN_VALID_DATA.customCode);
             }
             next();
         } catch (e) {
