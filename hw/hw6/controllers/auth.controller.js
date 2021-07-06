@@ -42,14 +42,18 @@ module.exports = {
         }
     },
 
-    // refresh:async (req, res, next) => {
-    //     try {
-    //
-    //
-    //     }catch (e){
-    //         next(e)
-    //     }
-    //
-    // }
+    refresh: async (req, res, next) => {
+        try {
+            const { _id } = req.user;
+
+            const tokenPair = auth_service.generateTokenPair();
+            await O_Auth.create({ ...tokenPair, user: _id });
+
+            res.status(statusCode.SUCCESS).json({ ...tokenPair });
+        } catch
+        (e) {
+            next(e);
+        }
+    }
 
 };

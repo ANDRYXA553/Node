@@ -7,5 +7,8 @@ router.post('/login', authMiddlewares.authDataValidation,
     authMiddlewares.loginAndPasswordChecker,
     authControllers.userSignUp);
 
-router.post('/logout', authMiddlewares.checkAccessToken, authControllers.logout);
+router.post('/logout', authMiddlewares.checkAccessToken,
+    authControllers.logout);
+
+router.post('/refresh', authMiddlewares.checkRefreshToken, authControllers.refresh);
 module.exports = router;

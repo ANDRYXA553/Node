@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 
 const mongoose = require('mongoose');
@@ -30,7 +32,7 @@ function _mongooseConnector() {
 // eslint-disable-next-line no-unused-vars
 function _errorsHandler(err, req, res, next) {
     res
-        .status(err.status || 0)
+        .status(err.status || 200)
         .json({
             message: err.message || errConstants.UNKNOWN_ERROR,
             customCode: err.code || 0

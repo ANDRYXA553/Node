@@ -68,5 +68,29 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    checkRefreshToken: async (req, res, next) => {
+        try {
+            const refreshToken = req.get(constants.AUTHORIZATION);
+
+            if (!refreshToken) {
+                throw new ErrorHandler(statusCode.UNAUTHORIZED,
+                    errorMessages.NO_TOKEN.message,
+                    errorMessages.NO_TOKEN.customCode);
+            }
+
+            await auth_service.verifyToken(refreshToken, constants.TOKEN_TYPES.REFRESH);
+
+            const { user } = await O_Auth.findOne({ refreshToken });
+
+            await O_Auth.deleteOne({ refreshToken });
+
+            req.user = user;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };

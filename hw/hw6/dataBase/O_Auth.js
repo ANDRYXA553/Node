@@ -8,8 +8,9 @@ const oAuthSchema = new Schema({
         required: true
     },
     refreshToken: {
+        required: true,
         type: String,
-        select: false
+        unique: true
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -17,5 +18,9 @@ const oAuthSchema = new Schema({
         ref: dataBaseEnum.USER
     }
 }, { timestamps: true });
+
+oAuthSchema.pre('findOne', function() {
+    this.populate('user');
+});
 
 module.exports = model(dataBaseEnum.O_AUTH, oAuthSchema);

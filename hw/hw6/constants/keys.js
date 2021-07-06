@@ -1,5 +1,6 @@
 module.exports = {
-    DB_CONNECTION_UR: process.env.DB_CONNECTION_URL || 'mongodb://localhost:27017/users',
-    ACCESS_TOKEN: process.env.ACCESS_TOKEN || 'wqeqk22j421sSD',
-    REFRESH_TOKEN: process.env.ACCESS_TOKEN || 'AA3422jXMDsedws'
+    DB_CONNECTION_UR: process.env.db_connection_url || 'lolo',
+    ACCESS_TOKEN: process.env.access_token || 'lolo',
+    REFRESH_TOKEN: process.env.refresh_token || 'lolo',
+    PORT: process.env.PORT || 5673
 };
