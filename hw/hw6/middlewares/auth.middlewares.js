@@ -82,11 +82,17 @@ module.exports = {
 
             await auth_service.verifyToken(refreshToken, constants.TOKEN_TYPES.REFRESH);
 
-            const { user } = await O_Auth.findOne({ refreshToken });
+            const tokenFromBase = await O_Auth.findOne({ refreshToken });
+
+            if (!tokenFromBase) {
+                throw new ErrorHandler(statusCode.UNAUTHORIZED,
+                    errorMessages.WRONG_TOKEN.message,
+                    errorMessages.WRONG_TOKEN.customCode);
+            }
 
             await O_Auth.deleteOne({ refreshToken });
 
-            req.user = user;
+            req.user = tokenFromBase.user;
 
             next();
         } catch (e) {
