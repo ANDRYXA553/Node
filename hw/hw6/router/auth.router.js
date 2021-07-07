@@ -3,7 +3,9 @@ const router = require('express').Router();
 const { authControllers } = require('../controllers');
 const { authMiddlewares } = require('../middlewares');
 
-router.post('/login', authMiddlewares.authDataValidation,
+router.post('/login',
+    authMiddlewares.checkAccessToken,
+    authMiddlewares.authDataValidation,
     authMiddlewares.loginAndPasswordChecker,
     authControllers.userSignUp);
 

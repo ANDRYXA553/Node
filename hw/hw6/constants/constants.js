@@ -8,5 +8,7 @@ module.exports = {
         ACCESS: 'Access',
         REFRESH: 'Refresh'
     },
-    AUTHORIZATION: 'Authorization'
+    AUTHORIZATION: 'Authorization',
+    ACCESS_TOKEN_TIME: '7m',
+    REFRESH_TOKEN_TIME: '30d'
 };
